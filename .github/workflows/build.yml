@@ -10,12 +10,10 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Build with Buildozer Docker
-      run: |
-        docker run --rm \
-          -v $PWD:/src \
-          -w /src \
-          --env BUILDOZER_ANDROID_ACCEPT_LICENSES=yes \
-          kivy/buildozer \
-          buildozer android debug
-      timeout-minutes: 60
+    - name: Build with Buildozer Action
+      uses: ArtemSBulgakov/buildozer-action@v1.3.2
+      with:
+        work-dir: ./
+        buildozer-version: stable
+        target: android
+        buildozer-command: debug
