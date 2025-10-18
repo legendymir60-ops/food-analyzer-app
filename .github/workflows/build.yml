@@ -25,8 +25,11 @@ jobs:
         wget -q https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
         mkdir -p android-sdk
         unzip -q commandlinetools-linux-8512546_latest.zip -d android-sdk
+        
+        # Правильное перемещение файлов
         mkdir -p android-sdk/cmdline-tools/latest
-        mv android-sdk/cmdline-tools/* android-sdk/cmdline-tools/latest/
+        mv android-sdk/cmdline-tools/bin android-sdk/cmdline-tools/latest/
+        mv android-sdk/cmdline-tools/lib android-sdk/cmdline-tools/latest/
         
         export ANDROID_HOME=$PWD/android-sdk
         export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
