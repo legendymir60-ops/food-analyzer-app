@@ -1,38 +1,24 @@
-name: Build Kivy APK
+[app]
+title = Food Analyzer
+package.name = foodanalyzer
+package.domain = org.example
 
-on: [push]
+source.dir = .
+source.include_exts = py,png,jpg,kv,atlas,txt
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          python3-pip \
-          openjdk-11-jdk \
-          git \
-          zip \
-          unzip \
-          build-essential
-          
-    - name: Install Buildozer
-      run: |
-        pip3 install buildozer
-        pip3 install cython==0.29.33
-        
-    - name: Accept Android licenses
-      run: |
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        yes | $ANDROID_HOME/tools/bin/sdkmanager --licenses || true
-        
-    - name: Build APK
-      run: |
-        buildozer -v android debug
-      timeout-minutes: 40
+version = 0.1
+requirements = python3,kivy,pillow,plyer,numpy,android
+
+[buildozer]
+log_level = 2
+
+android.permissions = READ_EXTERNAL_STORAGE,WRITE_EXTERNAL_STORAGE
+
+android.api = 30
+android.minapi = 21
+android.sdk = 20
+android.ndk = 23b
+
+orientation = portrait
+
+android.accept_sdk_license = True
