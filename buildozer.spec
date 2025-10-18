@@ -1,3 +1,5 @@
+# Создаем правильный buildozer.spec
+spec_content = """
 [app]
 title = Food Analyzer
 package.name = foodanalyzer
@@ -7,7 +9,7 @@ source.dir = .
 source.include_exts = py,png,jpg,kv,atlas,txt
 
 version = 0.1
-requirements = python3,kivy,pillow,plyer,numpy,android
+requirements = python3,kivy
 
 [buildozer]
 log_level = 2
@@ -22,3 +24,10 @@ android.ndk = 23b
 orientation = portrait
 
 android.accept_sdk_license = True
+"""
+
+with open('buildozer.spec', 'w') as f:
+    f.write(spec_content)
+
+# Пересобираем APK
+!buildozer android debug
