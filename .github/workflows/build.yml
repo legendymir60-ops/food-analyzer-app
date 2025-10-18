@@ -12,7 +12,7 @@ jobs:
       
     - name: Build with Buildozer Docker
       run: |
-        docker run --rm -it \
+        docker run --rm \
           -v $PWD:/src \
           -w /src \
           --env BUILDOZER_ANDROID_ACCEPT_LICENSES=yes \
