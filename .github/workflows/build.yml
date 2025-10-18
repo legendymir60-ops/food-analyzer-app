@@ -10,10 +10,8 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Build with Buildozer Action
-      uses: ArtemSBulgakov/buildozer-action@v1.3.2
-      with:
-        work-dir: ./
-        buildozer-version: stable
-        target: android
-        buildozer-command: debug
+    - name: Build APK
+      run: |
+        pip3 install buildozer cython
+        buildozer android debug
+      timeout-minutes: 60
