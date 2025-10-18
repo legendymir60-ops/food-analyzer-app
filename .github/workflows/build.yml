@@ -10,14 +10,20 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-      
-    - name: Install Python dependencies
+    - name: Force accept Android licenses
       run: |
+        mkdir -p ~/.android
+        echo "### User Sources for Android SDK Manager" > ~/.android/repositories.cfg
+        echo "count=0" >> ~/.android/repositories.cfg
+        yes | sdkmanager --licenses || true
+        
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3-pip openjdk-11-jdk
         pip3 install buildozer cython
         
     - name: Build APK
       run: |
-        buildozer android debug
+        buildozer -v android debug
       timeout-minutes: 60
