@@ -10,11 +10,11 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Install minimal dependencies
+    - name: Install dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y python3-pip openjdk-11-jdk
-        pip3 install buildozer
+        sudo apt-get install -y python3-pip openjdk-11-jdk git
+        pip3 install buildozer cython
         
     - name: Build APK (this will take 30-40 minutes)
       run: |
