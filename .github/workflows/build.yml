@@ -10,38 +10,12 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Install dependencies
+    - name: Build with Buildozer Docker
       run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip openjdk-11-jdk wget unzip
-        pip3 install buildozer cython
-        
-    - name: Setup Android SDK and accept licenses
-      run: |
-        mkdir -p ~/.android
-        touch ~/.android/repositories.cfg
-        
-        # Download Android Command Line Tools
-        wget -q https://dl.google.com/android/repository/commandlinetools-linux-8512546_latest.zip
-        mkdir -p android-sdk
-        unzip -q commandlinetools-linux-8512546_latest.zip -d android-sdk
-        
-        # Правильное перемещение файлов
-        mkdir -p android-sdk/cmdline-tools/latest
-        mv android-sdk/cmdline-tools/bin android-sdk/cmdline-tools/latest/
-        mv android-sdk/cmdline-tools/lib android-sdk/cmdline-tools/latest/
-        
-        export ANDROID_HOME=$PWD/android-sdk
-        export PATH=$ANDROID_HOME/cmdline-tools/latest/bin:$PATH
-        
-        # Accept ALL licenses automatically
-        yes | sdkmanager --licenses
-        
-        # Install required packages
-        sdkmanager "platform-tools" "platforms;android-30" "build-tools;30.0.3"
-        
-    - name: Build APK
-      run: |
-        export ANDROID_HOME=$PWD/android-sdk
-        buildozer -v android debug
+        docker run --rm -it \
+          -v $PWD:/src \
+          -w /src \
+          --env BUILDOZER_ANDROID_ACCEPT_LICENSES=yes \
+          kivy/buildozer \
+          buildozer android debug
       timeout-minutes: 60
