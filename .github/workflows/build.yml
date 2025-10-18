@@ -10,13 +10,14 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v4
       
-    - name: Install dependencies
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v3
+      
+    - name: Install Python dependencies
       run: |
-        sudo apt-get update
-        sudo apt-get install -y python3-pip openjdk-11-jdk git
         pip3 install buildozer cython
         
-    - name: Build APK (this will take 30-40 minutes)
+    - name: Build APK
       run: |
         buildozer android debug
       timeout-minutes: 60
