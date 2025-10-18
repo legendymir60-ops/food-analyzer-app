@@ -5,30 +5,13 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+    container:
+      image: kivy/buildozer:latest
+
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
-      
-    - name: Setup Android SDK
-      uses: android-actions/setup-android@v3
-      
-    - name: Install system dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y \
-          python3-pip \
-          git \
-          zip \
-          unzip \
-          build-essential
-          
-    - name: Install Buildozer
-      run: |
-        pip3 install buildozer
-        pip3 install cython==0.29.33
-        
+
     - name: Build APK
       run: |
-        buildozer -v android debug
-      timeout-minutes: 40
+        buildozer android debug
