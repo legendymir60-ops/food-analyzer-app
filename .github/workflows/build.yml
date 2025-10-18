@@ -5,16 +5,12 @@ on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
-      
-    - name: Build APK with BeeWare
-      uses: beeware/Python-Android-template/.github/workflows/build.yml@main
-      
-    - name: Upload APK
-      uses: actions/upload-artifact@v4
-      with:
-        name: android-app
-        path: dist/*.apk
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Build APK
+        run: |
+          pip3 install buildozer cython
+          buildozer android debug
+        timeout-minutes: 60
